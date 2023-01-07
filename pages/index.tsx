@@ -1,12 +1,11 @@
 import Navbar from "@components/Navbar";
-import { useRouter } from "next/router";
+import Posts from "@components/Posts";
 
 export default function Home() {
   return (
     <div>
-      <div>
-        <Navbar />
-      </div>
+      <Navbar />
+      <Posts />
     </div>
   );
 }

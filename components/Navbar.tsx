@@ -2,6 +2,8 @@ import { AuthContext } from "@utils/AuthContext";
 import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import { Fragment, useContext } from "react";
+import defaultUser from "../public/defaultuser.webp";
+import Image from "next/image";
 
 import { Menu, Transition } from "@headlessui/react";
 
@@ -11,7 +13,7 @@ const links = [
 ];
 
 const Navbar = () => {
-  const user = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   return (
     <nav className="w-full py-8">
       <div className="mx-auto w-4/5 flex justify-between">
@@ -20,13 +22,22 @@ const Navbar = () => {
         </Link>
         <ul className="flex items-center ">
           <Link href="/account">
-            <img
-              className={`w-10 h-10 rounded-full mx-2 ${
-                !user ? "hidden" : null
-              }`}
-              src={user?.user_metadata.avatar_url}
-              alt="Your profile image"
-            />
+            <div className="w-10 h-10 mx-2 relative">
+              {user?.user_metadata.avatar_url ? (
+                <Image
+                  className={`rounded-full`}
+                  src={user?.user_metadata.avatar_url}
+                  alt="Your profile image"
+                  fill
+                />
+              ) : (
+                <Image
+                  className={`rounded-full`}
+                  src={defaultUser}
+                  alt="Your profile image"
+                />
+              )}
+            </div>
           </Link>
           <Menu as="div" className="relative inline-block text-left">
             <div>
@@ -48,7 +59,7 @@ const Navbar = () => {
                 <div className="py-1">
                   {links.map((link) =>
                     user || !link.authRequired ? (
-                      <Menu.Item>
+                      <Menu.Item key={link.href}>
                         {({ active }) => (
                           <a
                             href={link.href}
@@ -64,7 +75,7 @@ const Navbar = () => {
                       </Menu.Item>
                     ) : null
                   )}
-                  <Menu.Item>
+                  <Menu.Item key="login">
                     {user ? (
                       <div className="block px-4 py-2 text-sm text-gray-700 border-t-[1px] border-gray-100">
                         <p>Signed in as</p>

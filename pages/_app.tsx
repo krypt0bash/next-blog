@@ -1,11 +1,19 @@
-import { AuthContextProvider } from "utils/AuthContext";
+import Spinner from "@components/Spinner";
+import { AuthContextProvider } from "@utils/AuthContext";
+import { SessionContextProvider } from "@utils/SessionContext";
+import { AppProps } from "next/app";
+import { Toaster } from "react-hot-toast";
 import "../styles/globals.css";
-import type { AppProps } from "next/app";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthContextProvider>
-      <Component {...pageProps} />
+      <SessionContextProvider>
+        <Spinner>
+          <Component {...pageProps} />
+          <Toaster />
+        </Spinner>
+      </SessionContextProvider>
     </AuthContextProvider>
   );
 }

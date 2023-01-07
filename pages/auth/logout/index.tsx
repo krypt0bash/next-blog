@@ -1,10 +1,13 @@
+import Spinner from "@components/Spinner";
+import { SessionContext } from "@utils/SessionContext";
 import { supabase } from "@utils/supabase";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 
 const LoginPage: NextPage = () => {
   const router = useRouter();
+  const { session } = useContext(SessionContext);
   useEffect(() => {
     const logout = async () => {
       await supabase.auth.signOut();
@@ -12,7 +15,7 @@ const LoginPage: NextPage = () => {
     logout();
     router.push("/");
   }, []);
-  return <h1>Logging out</h1>;
+  return <Spinner />;
 };
 
 export default LoginPage;
